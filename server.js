@@ -12,6 +12,7 @@ Object.assign=require('object-assign')
 app.engine('html', require('ejs').renderFile);
 app.use(morgan('combined'))
 
+console.log(process.env);
 console.log('Port: ' + process.env.PORT);
 console.log('Port openshift: ' + process.env.OPENSHIFT_NODEJS_PORT);
 console.log('Ip: ' + process.env.IP);
