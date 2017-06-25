@@ -12,11 +12,6 @@ Object.assign=require('object-assign')
 app.engine('html', require('ejs').renderFile);
 app.use(morgan('combined'))
 
-console.log(process.env);
-console.log('Port: ' + process.env.PORT);
-console.log('Port openshift: ' + process.env.OPENSHIFT_NODEJS_PORT);
-console.log('Ip: ' + process.env.IP);
-console.log('Ip openshift: ' + process.env.OPENSHIFT_NODEJS_IP);
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
     mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
@@ -46,6 +41,9 @@ var db = null,
 
 var initDb = function(callback) {
   if (mongoURL == null) return;
+    
+    console.log('connect to DB...');
+    console.log(mongoURL);
 
   var mongodb = require('mongodb');
   if (mongodb == null) return;
