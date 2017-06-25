@@ -1,3 +1,5 @@
+console.log('Test server start');
+
 //  OpenShift sample Node application
 var express = require('express'),
     fs      = require('fs'),
@@ -10,6 +12,10 @@ Object.assign=require('object-assign')
 app.engine('html', require('ejs').renderFile);
 app.use(morgan('combined'))
 
+console.log('Port: ' + process.env.PORT);
+console.log('Port openshift: ' + process.env.OPENSHIFT_NODEJS_PORT);
+console.log('Ip: ' + process.env.IP);
+console.log('Ip openshift: ' + process.env.OPENSHIFT_NODEJS_IP);
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
     mongoURL = process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL,
@@ -90,6 +96,20 @@ app.get('/pagecount', function (req, res) {
     res.send('{ pageCount: -1 }');
   }
 });
+
+
+  if (!db) {
+    initDb(function(err){});
+      console.log('DB init');
+  }
+  if (db) {
+    db.collection('counts').count(function(err, count ){
+      res.send('{ pageCount: ' + count + '}');
+    });
+  } else {
+    res.send('{ pageCount: -1 }');
+      console.log('pagecount Db not found');
+  }
 
 // error handling
 app.use(function(err, req, res, next){
