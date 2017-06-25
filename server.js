@@ -104,10 +104,9 @@ app.get('/pagecount', function (req, res) {
   }
   if (db) {
     db.collection('counts').count(function(err, count ){
-      res.send('{ pageCount: ' + count + '}');
+      console.log('pagecount Db ' + count);
     });
   } else {
-    res.send('{ pageCount: -1 }');
       console.log('pagecount Db not found');
   }
 
